@@ -24667,3 +24667,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 0.5
+  collectableObjectStat: {fileID: 11400000, guid: f9f1885313c5e9a48ac0464175943a8a, type: 2}

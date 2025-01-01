@@ -10,7 +10,7 @@ namespace VitsehLand.Scripts.Weapon.Primary
     [System.Serializable]
     public class ShootingInputData
     {
-        public ShootingInputData(ShootController _shootController, CollectableObjectStat.ShootingHandleType _shootingHandleType, CollectableObjectStatController _collectableObjectStatController, AudioSource _source, Transform _raycastOrigin, Transform _fpsCameraTransform, GameEvent _hitEvent, CameraShake _cameraShake, Transform _bulletSpawnPoint, int _layerMask)
+        public ShootingInputData(ShootController _shootController, CollectableObjectStat.ShootingHandleType _shootingHandleType, CollectableObjectStatController _collectableObjectStatController, AudioSource _source, Transform _raycastOrigin, Transform _fpsCameraTransform, GameEvent _hitEvent, CameraShake _cameraShake, Transform _bulletSpawnPoint, float _lifeTime, int _layerMask)
         {
             shootController = _shootController;
             shootingHandleType = _shootingHandleType;
@@ -21,6 +21,7 @@ namespace VitsehLand.Scripts.Weapon.Primary
             hitEvent = _hitEvent;
             cameraShake = _cameraShake;
             bulletSpawnPoint = _bulletSpawnPoint;
+            lifeTime = _lifeTime;
             layerMask = _layerMask;
         }
 
@@ -34,6 +35,7 @@ namespace VitsehLand.Scripts.Weapon.Primary
         public GameEvent hitEvent;
         public CameraShake cameraShake;
         public Transform bulletSpawnPoint;
+        public float lifeTime;
         public int layerMask;
     }
 }

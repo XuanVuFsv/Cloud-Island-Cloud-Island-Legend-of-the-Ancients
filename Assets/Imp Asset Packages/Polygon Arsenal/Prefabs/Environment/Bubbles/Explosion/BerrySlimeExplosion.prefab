@@ -9976,6 +9976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 0.5
+  collectableObjectStat: {fileID: 11400000, guid: 1bfeca6234170be4ea60badc372d9f00, type: 2}
 --- !u!1 &8315151343920825145
 GameObject:
   m_ObjectHideFlags: 0

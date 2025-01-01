@@ -72,7 +72,7 @@ namespace VitsehLand.Scripts.Pattern.Pooling
             newPoolManager.transform.parent = transform;
             newPoolManager.AddComponent<PoolSetup>();
 
-            pooledList.Add(poolManagerName, newPoolManager.GetComponent<PoolSetup>().InitPool(poolManagerName, initPoolSize, maxPoolSize, prefab, gameEvent) as IPoolSetup);
+            pooledList.Add(poolManagerName, newPoolManager.GetComponent<PoolSetup>().InitPool(poolManagerName, initPoolSize, prefab, gameEvent, maxPoolSize) as IPoolSetup);
         }
 
         public void RemovePoolManagerByName(string poolManagerName)

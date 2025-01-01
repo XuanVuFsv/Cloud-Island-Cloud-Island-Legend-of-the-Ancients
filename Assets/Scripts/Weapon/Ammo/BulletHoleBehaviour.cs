@@ -1,13 +1,18 @@
 using UnityEngine;
 using VitsehLand.Scripts.Pattern.Pooling;
+using VitsehLand.Scripts.Stats;
 
 namespace VitsehLand.Scripts.Weapon.Ammo
 {
     public class BulletHoleBehaviour : ObjectInPool
     {
+        [Tooltip("The bullet hole is spawned or activated based on the actions of the object containing this stat")]
+        public CollectableObjectStat collectableObjectStat;
         private void Start()
         {
             gameObject.SetActive(false);
+
+            //if (collectableObjectStat != null) amountInstantiatedWhenCalled = (collectableObjectStat.GetCollectableObjectStatComponent<AttackingCropStat>() as AttackingCropStat).bulletCount;
         }
 
         public override void OnUsed(RaycastHit hit)

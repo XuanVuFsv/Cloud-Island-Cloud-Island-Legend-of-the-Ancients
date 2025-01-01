@@ -92,6 +92,7 @@ MonoBehaviour:
         force: 0
         range: 100
         fireRate: 5
+        lifeTime: 0
         damage: 20
         damageDealToSpecificEnemy: 0
         reloadSpeed: 0.5

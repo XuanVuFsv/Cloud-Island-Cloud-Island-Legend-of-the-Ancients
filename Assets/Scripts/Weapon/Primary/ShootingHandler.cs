@@ -175,8 +175,9 @@ namespace VitsehLand.Scripts.Weapon.Primary
                 direction = shootingInputData.fpsCameraTransform.TransformDirection(localDirection).normalized;
             }
 
-            GameObject newBullet = Instantiate(shootingInputData.collectableObjectStatController.collectableObjectStat.bulletObject, shootingInputData.bulletSpawnPoint.position, Quaternion.identity);
-            newBullet.GetComponent<BulletBehaviour>().TriggerBullet(shootingInputData.collectableObjectStatController.collectableObjectStat.collectableObjectName, shootingInputData.collectableObjectStatController.force, direction);
+            BulletBehaviour newBullet = Instantiate(shootingInputData.collectableObjectStatController.collectableObjectStat.bulletObject, shootingInputData.bulletSpawnPoint.position, Quaternion.identity).GetComponent<BulletBehaviour>();
+            newBullet.timeLife = shootingInputData.lifeTime;
+            newBullet.TriggerBullet(shootingInputData.collectableObjectStatController.collectableObjectStat.collectableObjectName, shootingInputData.collectableObjectStatController.force, direction);
             shootingInputData.cameraShake.GenerateRecoil(shootingInputData.collectableObjectStatController.zoomType);
 
             weaponStatsController.UseAmmo(1);

@@ -179,7 +179,10 @@ namespace VitsehLand.Scripts.Stats
 
         public CollectableObjectStatComponent GetCollectableObjectStatComponent<T>() where T : CollectableObjectStatComponent
         {
-            return components.OfType<T>().FirstOrDefault();
+            var component = components.OfType<T>().FirstOrDefault();
+            if (component == null) throw new InvalidOperationException($"No component of type {typeof(T).Name} found.");
+
+            return component;
         }
 
         /**/

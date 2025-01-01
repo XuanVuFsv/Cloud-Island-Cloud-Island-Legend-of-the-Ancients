@@ -44,6 +44,8 @@ namespace VitsehLand.Scripts.Stats
         public int force;
         public int range;
         public float fireRate;
+        [SerializeField]
+        private float lifeTime; 
 
         public int damage;
         public int damageDealToSpecificEnemy;
@@ -61,6 +63,9 @@ namespace VitsehLand.Scripts.Stats
         [InfoBox("A list of directions that the bullet will take after being fired. This is used to simulate the deviation in bullet trajectory caused by recoil, similar to the behavior of sniper bullets. The directions are randomized with each shot.")]
         public List<Vector3> bulletDirectionPattern;
 
-
+        public override float GetLifeTime()
+        {
+            return shootingHandleType == ShootingHandleType.InstantiateBullet ? lifeTime : 0;
+        }
     }
 }

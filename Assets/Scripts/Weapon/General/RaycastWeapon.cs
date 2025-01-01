@@ -55,7 +55,19 @@ namespace VitsehLand.Scripts.Weapon.General
         public async UniTaskVoid SetAsInputData(LayerMask _layerMask)
         {
             await UniTask.WaitUntil(() => collectableObjectStatController.collectableObjectStat != null);
-            ShootingInputData shootingInputData = new ShootingInputData(shootController, collectableObjectStatController.collectableObjectStat.shootingHandleType, collectableObjectStatController, shootController.source, raycastOrigin, fpsCameraTransform, hitEvent, cameraShake, bulletSpawnPoint, _layerMask);
+
+            ShootingInputData shootingInputData = new ShootingInputData(shootController, 
+                collectableObjectStatController.collectableObjectStat.shootingHandleType, 
+                collectableObjectStatController, 
+                shootController.source, 
+                raycastOrigin, 
+                fpsCameraTransform, 
+                hitEvent, 
+                cameraShake,
+                bulletSpawnPoint, 
+                (collectableObjectStatController.collectableObjectStat.GetCollectableObjectStatComponent<AttackingCropStat>() as AttackingCropStat).GetLifeTime(), 
+                _layerMask);
+
             weaponHandler.SetInputData(shootingInputData);
         }
 
