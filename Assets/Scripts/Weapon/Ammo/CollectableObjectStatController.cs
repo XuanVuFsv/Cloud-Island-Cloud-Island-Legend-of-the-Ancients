@@ -41,6 +41,7 @@ namespace VitsehLand.Scripts.Weapon.Ammo
         public GameObject bulletObject;
 
         public int bulletCount;
+        public int ammoHolding;
 
         public WaitForSeconds reloadTimer;
 
@@ -103,6 +104,7 @@ namespace VitsehLand.Scripts.Weapon.Ammo
             reloadSpeed = collectableObjectStat.reloadSpeed;
 
             bulletCount = collectableObjectStat.bulletCount;
+            ammoHolding = collectableObjectStat.ammmoHolding;
 
             reloadTimer = new WaitForSeconds(reloadSpeed * 0);
 

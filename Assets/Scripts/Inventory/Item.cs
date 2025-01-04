@@ -45,7 +45,7 @@ namespace VitsehLand.Scripts.Inventory
             //    else suckableSample = (ammoObject as AmmoPickup).suckableSample;
             //}
 
-            int currentCount = count + newCount;
+            int currentCount = count + newCount * collectableObjectStat.ammmoHolding;
             ammoObject.cropContain = 1;
             //Debug.Log(currentCount);
 

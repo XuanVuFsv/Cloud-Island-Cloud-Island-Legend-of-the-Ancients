@@ -10,22 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f66092723e12c74baa5f126b033b5cf, type: 3}
-  m_Name: Sugar
+  m_Name: Milk
   m_EditorClassIdentifier: 
+  selectedComponents: 16
+  components:
+  - rid: 4767322046297800724
   weaponSlot: 2
-  name: Sugar
-  maxCount: 2000
-  ammoAllowedInMagazine: 100
+  filteredType: 4
+  featuredType: 1
+  icon: {fileID: 21300000, guid: 5a35768ae338c4cfd8f2846a8f7658d0, type: 3}
+  baseId: power_core
+  collectableObjectName: Power Core
+  maxCount: 9999
+  maxQuantityStored: 9999
   amplitudeGainImpulse: 1
   force: 10
   fireRate: 10
-  artwork: {fileID: 21300000, guid: fc280b22599054b5db911be240067bf7, type: 3}
-  fruitPrefab: {fileID: 0}
-  shootingHandleType: 0
-  featuredType: 1
+  shootingHandleType: -1
+  bulletObject: {fileID: 0}
   bulletEffectComponent: -1
   trailTracer: {fileID: 0}
-  bulletObject: {fileID: 0}
   hitEffectPrefab: {fileID: 0}
   damage: 0
   damageDealToSpecificEnemy: 0
@@ -35,11 +39,22 @@ MonoBehaviour:
   multiplierRecoilOnAim: 0
   multiplierForAmmo: 0
   recoildPattern: []
-  bulletCount: 1
+  bulletCount: 0
+  ammmoHolding: 1
   bulletDirectionPattern: []
-  totalGrowingTime: 2
-  numberOfFruitPerSeed: 3
+  totalGrowingTime: 0
   bodyType: -1
-  wateringTime: 1
+  wateringTime: 0
   requiredLevel: 1
   growingBody: {fileID: 0}
+  description: 
+  gemEarnWhenHaverst: 0
+  totalProducingTime: 7
+  recipe: {fileID: 11400000, guid: 0cdf893ab92260841894713e2a3b3824, type: 2}
+  cost: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4767322046297800724
+      type: {class: NaturalResourceStat, ns: VitsehLand.Scripts.Stats, asm: Game}
+      data: 

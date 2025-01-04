@@ -180,7 +180,7 @@ namespace VitsehLand.Scripts.Stats
         public CollectableObjectStatComponent GetCollectableObjectStatComponent<T>() where T : CollectableObjectStatComponent
         {
             var component = components.OfType<T>().FirstOrDefault();
-            if (component == null) throw new InvalidOperationException($"No component of type {typeof(T).Name} found.");
+            if (component == null) Debug.Log($"No component of type {typeof(T).Name} found.");
 
             return component;
         }
@@ -234,6 +234,7 @@ namespace VitsehLand.Scripts.Stats
         public List<Vector2> recoildPattern;
 
         public int bulletCount = 1;
+        public int ammmoHolding = 1;
         public List<Vector3> bulletDirectionPattern;
 
         public int totalGrowingTime;

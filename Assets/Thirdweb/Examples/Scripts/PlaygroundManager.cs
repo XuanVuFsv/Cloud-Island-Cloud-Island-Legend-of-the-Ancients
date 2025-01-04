@@ -24,7 +24,7 @@ namespace Thirdweb.Unity.Examples
     public class PlaygroundManager : MonoBehaviour
     {
         [field: SerializeField, Header("Wallet Options")]
-        private ulong ActiveChainId = 421614;
+        private ulong ActiveChainId = 28122024;
 
         [field: SerializeField]
         private bool WebglForceMetamaskExtension = false;

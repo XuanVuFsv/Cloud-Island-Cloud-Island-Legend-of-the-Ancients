@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f66092723e12c74baa5f126b033b5cf, type: 3}
+  m_Name: Sugar
+  m_EditorClassIdentifier: 
+  selectedComponents: 0
+  components: []
+  weaponSlot: 2
+  filteredType: 0
+  featuredType: 1
+  icon: {fileID: 0}
+  baseId: 
+  collectableObjectName: 
+  maxCount: 2000
+  maxQuantityStored: 0
+  amplitudeGainImpulse: 1
+  force: 10
+  fireRate: 10
+  shootingHandleType: 0
+  bulletObject: {fileID: 0}
+  bulletEffectComponent: -1
+  trailTracer: {fileID: 0}
+  hitEffectPrefab: {fileID: 0}
+  damage: 0
+  damageDealToSpecificEnemy: 0
+  zoomType: 0
+  range: 0
+  reloadSpeed: 0
+  multiplierRecoilOnAim: 0
+  multiplierForAmmo: 0
+  recoildPattern: []
+  bulletCount: 1
+  ammmoHolding: 1
+  bulletDirectionPattern: []
+  totalGrowingTime: 2
+  bodyType: -1
+  wateringTime: 1
+  requiredLevel: 1
+  growingBody: {fileID: 0}
+  description: 
+  gemEarnWhenHaverst: 0
+  totalProducingTime: 0
+  recipe: {fileID: 0}
+  cost: 0
+  references:
+    version: 2
+    RefIds: []

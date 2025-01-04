@@ -148,7 +148,7 @@ namespace Thirdweb.Unity
         private bool OptOutUsageAnalytics { get; set; } = false;
 
         [field: SerializeField]
-        private ulong[] SupportedChains { get; set; } = new ulong[] { 421614 };
+        private ulong[] SupportedChains { get; set; } = new ulong[] { 28122024 };
 
         [field: SerializeField]
         private string RedirectPageHtmlOverride { get; set; } = null;

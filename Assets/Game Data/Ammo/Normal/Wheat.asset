@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f66092723e12c74baa5f126b033b5cf, type: 3}
+  m_Name: Wheat
+  m_EditorClassIdentifier: 
+  selectedComponents: 6
+  components:
+  - rid: 4767322046297800705
+  - rid: 4767322046297800713
+  weaponSlot: 0
+  filteredType: 0
+  featuredType: 2
+  icon: {fileID: 21300000, guid: d7bac4c3e8f044f2983b509e3ef144a1, type: 3}
+  baseId: wheat
+  collectableObjectName: Wheat
+  maxCount: 9999
+  maxQuantityStored: 9999
+  amplitudeGainImpulse: 1
+  force: 0
+  fireRate: 15
+  shootingHandleType: 0
+  bulletObject: {fileID: 0}
+  bulletEffectComponent: 0
+  trailTracer: {fileID: 0}
+  hitEffectPrefab: {fileID: 3306171731122782009, guid: 9efff6761586a664f9b76807673f5f95, type: 3}
+  damage: 5
+  damageDealToSpecificEnemy: 0
+  zoomType: 1
+  range: 100
+  reloadSpeed: 0.05
+  multiplierRecoilOnAim: 0.05
+  multiplierForAmmo: 1
+  recoildPattern:
+  - {x: 0, y: 0}
+  bulletCount: 1
+  ammmoHolding: 10
+  bulletDirectionPattern:
+  - {x: 0, y: 0, z: 0}
+  totalGrowingTime: 15
+  bodyType: 0
+  wateringTime: 0
+  requiredLevel: 0
+  growingBody: {fileID: 0}
+  description: SMG Rifle Ammo. Deal 2.5 damage
+  gemEarnWhenHaverst: 5
+  totalProducingTime: 0
+  recipe: {fileID: 0}
+  cost: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 4767322046297800705
+      type: {class: FarmingCropStat, ns: VitsehLand.Scripts.Stats, asm: Game}
+      data:
+        bodyType: 0
+        growingBody: {fileID: 0}
+        totalGrowingTime: 15
+        totalHarvestingQuantity: 0
+        wateringTime: 0
+        requiredLevel: 0
+        description: SMG Rifle Ammo. Deal 2.5 damage
+        gemEarnWhenHaverst: 5
+    - rid: 4767322046297800713
+      type: {class: AttackingCropStat, ns: VitsehLand.Scripts.Stats, asm: Game}
+      data:
+        shootingHandleType: 0
+        bulletEffectComponent: 0
+        zoomType: 1
+        bulletObject: {fileID: 0}
+        trailTracer: {fileID: 0}
+        hitEffectPrefab: {fileID: 3306171731122782009, guid: 9efff6761586a664f9b76807673f5f95, type: 3}
+        force: 0
+        range: 100
+        fireRate: 15
+        lifeTime: 0
+        damage: 5
+        damageDealToSpecificEnemy: 0
+        reloadSpeed: 0.05
+        amplitudeGainImpulse: 1
+        multiplierRecoilOnAim: 0.05
+        multiplierForAmmo: 1
+        recoilPattern:
+        - {x: 0, y: 0}
+        bulletCount: 1
+        bulletDirectionPattern:
+        - {x: 0, y: 0, z: 0}

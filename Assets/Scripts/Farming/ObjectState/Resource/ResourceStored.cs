@@ -21,6 +21,11 @@ namespace VitsehLand.Scripts.Farming.ObjectState.Resource
 
         }
 
+        public ResourceStored(FarmingProduct product) : base(product)
+        {
+
+        }
+
         public override void Start()
         {
             //Debug.Log("Start Stored");

@@ -12,6 +12,7 @@ using WalletConnectUnity.Nethereum;
 using Nethereum.RPC.Eth.DTOs;
 using WalletConnectUnity.Core.Evm;
 using Nethereum.Hex.HexTypes;
+using System.Diagnostics;
 
 namespace Thirdweb.Unity
 {
@@ -317,6 +318,7 @@ namespace Thirdweb.Unity
             }
             catch (Exception e)
             {
+                ThirdwebDebug.Log("Closed 1");
                 _exception = e;
             }
         }
@@ -325,7 +327,8 @@ namespace Thirdweb.Unity
         {
             if (!WalletConnect.Instance.IsConnected)
             {
-                _exception = new Exception("WalletConnect modal was closed.");
+                ThirdwebDebug.Log("WalletConnect modal was closed.");
+                //_exception = new Exception("WalletConnect modal was closed.");
             }
         }
 
