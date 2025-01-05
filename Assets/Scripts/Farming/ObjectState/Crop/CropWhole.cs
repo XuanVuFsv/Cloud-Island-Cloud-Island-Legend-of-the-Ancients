@@ -29,6 +29,8 @@ namespace VitsehLand.Scripts.Farming.ObjectState.Crop
             (objectMachine as global::Crop).gameObject.SetActive(true);
             (objectMachine as global::Crop).defaultModelPlant.SetActive(true);
 
+            (objectMachine as global::Crop).isFromHarvesting = true;
+
             SetWholePlantEffect();
         }
 

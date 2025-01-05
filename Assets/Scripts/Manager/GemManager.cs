@@ -10,10 +10,18 @@ namespace VitsehLand.Scripts.Manager
 
         [SerializeField]
         private int gemCount = 0;
+        [SerializeField]
+        private int savedGemCount = 0;
 
         public int GemCount
         {
             get { return gemCount; }
+        }
+
+        public int SavedGemCount
+        {
+            get { return savedGemCount; }
+            set { savedGemCount = value; }
         }
 
         // Start is called before the first frame update

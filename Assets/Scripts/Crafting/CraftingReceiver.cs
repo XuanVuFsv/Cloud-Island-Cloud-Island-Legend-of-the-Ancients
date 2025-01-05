@@ -12,7 +12,7 @@ namespace VitsehLand.Scripts.Crafting
         private void OnTriggerEnter(Collider other)
         {
             Suckable suckable = other.GetComponent<Suckable>();
-            if (other && (suckable is PowerContainer || suckable is NaturalResource))
+            if (other && (suckable is PowerContainer || suckable is NaturalResource || suckable is FarmingProduct || suckable is Crop))
             {
                 bool addSuccess = craftingManager.AddItemStorage(suckable.collectableObjectStat, suckable.cropContain);
                 if (addSuccess)

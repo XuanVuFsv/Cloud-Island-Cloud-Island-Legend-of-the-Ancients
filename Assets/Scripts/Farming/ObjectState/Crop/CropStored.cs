@@ -18,6 +18,8 @@ namespace VitsehLand.Scripts.Farming.ObjectState.Crop
                 (objectMachine as global::Crop).orginalPlant.wholePlants.Remove(objectMachine as global::Crop);
             }
 
+            (objectMachine as global::Crop).isFromHarvesting = false;
+
             //GemManager.Instance.AddGem((objectMachine as Plant).ammoStats.gemEarnWhenHaverst);
 
             (objectMachine as global::Crop).startDestroyedTimer = false;

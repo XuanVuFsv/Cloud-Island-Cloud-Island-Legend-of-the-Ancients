@@ -118,6 +118,8 @@ namespace VitsehLand.Scripts.TimeManager
         // Update is called once per frame
         void Update()
         {
+            if (seconInRealLifeVsIngame == 0) return;
+
             if (tempSeconds >= 60 / seconInRealLifeVsIngame)
             {
                 tempSeconds = 0;
@@ -142,6 +144,16 @@ namespace VitsehLand.Scripts.TimeManager
 
             if (minutes >= 10) minutesText.text = minutes.ToString();
             else minutesText.text = "0" + minutes.ToString();
+        }
+
+        public void Pause()
+        {
+            seconInRealLifeVsIngame = 0;
+        }
+
+        public void UnPause()
+        {
+            seconInRealLifeVsIngame = 90;
         }
 
         private void HandleHoursChange(int value)

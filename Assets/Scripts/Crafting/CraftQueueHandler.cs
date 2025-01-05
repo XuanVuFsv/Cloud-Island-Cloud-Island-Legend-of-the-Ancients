@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VitsehLand.Scripts.Farming.General;
+using VitsehLand.Scripts.Manager;
 using VitsehLand.Scripts.Stats;
 using VitsehLand.Scripts.Ultilities;
 
@@ -52,6 +53,7 @@ namespace VitsehLand.Scripts.Crafting
             {
                 //Debug.Log("Init");
                 GameObject newGameObject = Instantiate(product.gameObject, pos.position + UnityEngine.Random.value * 0.25f * Vector3.one, Quaternion.identity);
+
                 //Debug.Log(newGameObject.name);
             }
 
@@ -59,6 +61,7 @@ namespace VitsehLand.Scripts.Crafting
             totalTime = 0;
 
             MyDebug.Log("Done");
+            GemManager.Instance.AddGem(product.collectableObjectStat.gemEarnWhenHaverst);
 
             UIContainer.SetActive(false);
             OnCraftCompleted();

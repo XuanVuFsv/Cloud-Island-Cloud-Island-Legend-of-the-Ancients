@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: Donut
   m_EditorClassIdentifier: 
   selectedComponents: 16
-  components:
-  - rid: 6522796750338260998
+  components: []
   weaponSlot: 2
-  filteredType: 4
+  filteredType: 1
   featuredType: 1
-  icon: {fileID: 21300000, guid: 5a35768ae338c4cfd8f2846a8f7658d0, type: 3}
-  baseId: power_core
-  collectableObjectName: Power Core
+  icon: {fileID: 21300000, guid: af57cefb9e21e441da779138dfbfc9d1, type: 3}
+  baseId: donut
+  collectableObjectName: Donut
   maxCount: 9999
   maxQuantityStored: 9999
   amplitudeGainImpulse: 1
@@ -38,26 +37,22 @@ MonoBehaviour:
   reloadSpeed: 0
   multiplierRecoilOnAim: 0
   multiplierForAmmo: 0
-  recoildPattern: []
+  recoildPattern:
+  - {x: 0, y: 0}
   bulletCount: 0
   ammmoHolding: 1
-  bulletDirectionPattern: []
+  bulletDirectionPattern:
+  - {x: 0, y: 0, z: 0}
   totalGrowingTime: 0
   bodyType: -1
   wateringTime: 0
   requiredLevel: 1
   growingBody: {fileID: 0}
   description: 
-  gemEarnWhenHaverst: 0
+  gemEarnWhenHaverst: 35
   totalProducingTime: 30
-  recipe: {fileID: 11400000, guid: 0cdf893ab92260841894713e2a3b3824, type: 2}
+  recipe: {fileID: 11400000, guid: ae46cd7c8010ace499c2215e93359faa, type: 2}
   cost: 0
   references:
     version: 2
-    RefIds:
-    - rid: 6522796750338260998
-      type: {class: CraftedProductStat, ns: VitsehLand.Scripts.Stats, asm: Game}
-      data:
-        recipe: {fileID: 0}
-        totalProducingTime: 30
-        cost: 0
+    RefIds: []

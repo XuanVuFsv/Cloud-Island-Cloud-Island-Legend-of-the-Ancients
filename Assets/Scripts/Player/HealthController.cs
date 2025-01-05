@@ -1,13 +1,15 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using VitsehLand.Scripts.Pattern.Singleton;
 using VitsehLand.Scripts.TimeManager;
 namespace VitsehLand.Scripts.Player
 {
 
     //Logic in this class need to refactor by using event system and put logic UI, Sound to other class
-    public class HealthController : MonoBehaviour
+    public class HealthController : Singleton<HealthController>
     {
         public TextMeshProUGUI healthText;
         public float health;
@@ -15,6 +17,8 @@ namespace VitsehLand.Scripts.Player
         public GameObject loadUI;
         public RectTransform progressBar;
         public RectTransform healthBar;
+
+        public UnityEvent OnRestart;
 
         private void Start()
         {
@@ -50,6 +54,7 @@ namespace VitsehLand.Scripts.Player
                 {
                     inRestart = true;
                     StartCoroutine(ReStart());
+                    OnRestart.Invoke();
                 }
             }
 

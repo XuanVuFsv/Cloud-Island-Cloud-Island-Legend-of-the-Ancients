@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VitsehLand.Scripts.Enemy;
+using VitsehLand.Scripts.Manager;
 using VitsehLand.Scripts.Pattern.Pooling;
 using VitsehLand.Scripts.Pattern.Strategy;
 using VitsehLand.Scripts.Player;
@@ -97,7 +98,7 @@ namespace VitsehLand.Scripts.Weapon.Primary
                     if (hit.transform.gameObject.tag == "Wall")
                     {
                         GameObject wall = hit.transform.gameObject;
-                        //GemManager.Instance.AddGem(weaponStatsController.currentCropStatsController.collectableObjectStat.gemEarnWhenKillEnemy);
+                        GemManager.Instance.AddGem(1);
                         //Debug.Log(weaponStatsController.currentCropStatsController.collectableObjectStat.gemEarnWhenKillEnemy);
                         WallSpawner.Instance.DestroyWall(wall.GetComponent<WallBehaviour>().index);
                     }
@@ -143,7 +144,7 @@ namespace VitsehLand.Scripts.Weapon.Primary
                         if (!destroyedObstacle && hit.transform.gameObject.tag == "Wall")
                         {
                             GameObject wall = hit.transform.gameObject;
-                            //GemManager.Instance.AddGem(weaponStatsController.currentCollectableObjectStatController.collectableObjectStat.gemEarnWhenKillEnemy);
+                            GemManager.Instance.AddGem(1);
                             //Debug.Log(weaponStatsController.currentCropStatsController.collectableObjectStat.gemEarnWhenKillEnemy);
                             WallSpawner.Instance.DestroyWall(wall.GetComponent<WallBehaviour>().index);
                             destroyedObstacle = true;

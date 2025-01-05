@@ -8,6 +8,10 @@ using VitsehLand.Scripts.Ultilities;
 using VitsehLand.Scripts.Weapon.Ammo;
 using VitsehLand.Scripts.UI.Weapon;
 using VitsehLand.GameCamera.Shaking;
+using VitsehLand.Scripts.Inventory;
+using Nethereum.ABI.EIP712;
+
+
 
 #if UNITY_EDITOR
 using UnityEditor.Animations;
@@ -189,10 +193,37 @@ namespace VitsehLand.Scripts.Weapon.General
                 SwitchWeapon(equippedWeapon[2]);
             }
 
-            //if (Input.GetKeyDown(KeyCode.Alpha4))
-            //{
-            //    SwitchWeapon(equippedWeapon[3]);
-            //}
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                SwitchSlot(4);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                SwitchSlot(5);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                SwitchSlot(6);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                SwitchSlot(7);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                SwitchSlot(8);
+            }
+        }
+
+        public void SwitchSlot(int number)
+        {
+            int slotIndex = number - 4;
+            if (slotIndex < 0 || slotIndex > 4 || slotIndex == InventoryController.Instance.activeSlotIndex) return;
+
+            if (equippedWeapon[activeWeaponIndex].weaponSlot == WeaponSlot.AttackGun || equippedWeapon[activeWeaponIndex].weaponSlot == WeaponSlot.AxieCollector)
+            {
+                equippedWeapon[activeWeaponIndex].GetComponent<WeaponStatsController>().SwitchAmmo(slotIndex - InventoryController.Instance.activeSlotIndex);
+            }
         }
 
         public WeaponPickup GetWeaponPickupByIndex(int index)

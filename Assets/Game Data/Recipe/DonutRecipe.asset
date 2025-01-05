@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e681a7d669fe242aa6199fc348de1d, type: 3}
+  m_Name: DonutRecipe
+  m_EditorClassIdentifier: 
+  collectableObjectStat: {fileID: 11400000, guid: e8977935e95c03c42a039d2c0c090c5c, type: 2}
+  items:
+  - {fileID: 11400000, guid: 5453b3887c7172e4885116536830cef5, type: 2}
+  - {fileID: 11400000, guid: eb0b263fa49bf214a959a52b4f2702ad, type: 2}
+  - {fileID: 11400000, guid: 5453b3887c7172e4885116536830cef5, type: 2}
+  ammountPerSlots: 030000000100000003000000
+  product: {fileID: 4134280945024489170, guid: a685b5556a8590645a5124e7b96ccf49, type: 3}

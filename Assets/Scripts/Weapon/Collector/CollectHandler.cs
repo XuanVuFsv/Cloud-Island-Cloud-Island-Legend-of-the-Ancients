@@ -138,7 +138,7 @@ namespace VitsehLand.Assets.Scripts.Weapon.Collector
                 {
                     try
                     {
-                        if (suckedObject is Crop || suckedObject is PowerContainer || suckedObject is NaturalResource)
+                        if (suckedObject is Crop || suckedObject is PowerContainer || suckedObject is NaturalResource || suckedObject is FarmingProduct)
                         {
                             MyDebug.Log("AAA");
                             if (suckedObject.collectableObjectStat != null)

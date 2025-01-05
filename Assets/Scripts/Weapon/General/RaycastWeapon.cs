@@ -56,6 +56,9 @@ namespace VitsehLand.Scripts.Weapon.General
         {
             await UniTask.WaitUntil(() => collectableObjectStatController.collectableObjectStat != null);
 
+            var attackingCropStat = (collectableObjectStatController.collectableObjectStat.GetCollectableObjectStatComponent<AttackingCropStat>() as AttackingCropStat);
+            var lifetime = attackingCropStat == null ? 0f : attackingCropStat.GetLifeTime();
+
             ShootingInputData shootingInputData = new ShootingInputData(shootController, 
                 collectableObjectStatController.collectableObjectStat.shootingHandleType, 
                 collectableObjectStatController, 
@@ -65,7 +68,7 @@ namespace VitsehLand.Scripts.Weapon.General
                 hitEvent, 
                 cameraShake,
                 bulletSpawnPoint, 
-                (collectableObjectStatController.collectableObjectStat.GetCollectableObjectStatComponent<AttackingCropStat>() as AttackingCropStat).GetLifeTime(), 
+                lifetime, 
                 _layerMask);
 
             weaponHandler.SetInputData(shootingInputData);

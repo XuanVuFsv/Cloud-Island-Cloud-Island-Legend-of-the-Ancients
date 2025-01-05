@@ -137,11 +137,29 @@ namespace VitsehLand.Scripts.Crafting
 
         public bool CheckCraftCondition()
         {
-            foreach (MaterialCardWrapper card in view.materialCardWrappers)
+            //foreach (MaterialCardWrapper card in view.materialCardWrappers)
+            //{
+            //    if (card.requiredQuantity > card.quantity)
+            //    {
+            //        return false;
+            //    }
+            //}
+
+            if (view.materialCardWrappers[0].collectableObjectStat.name == view.materialCardWrappers[view.materialCardWrappers.Count - 1].collectableObjectStat.name)
             {
-                if (card.requiredQuantity > card.quantity)
+                if (view.materialCardWrappers[0].requiredQuantity * 2 > view.materialCardWrappers[view.materialCardWrappers.Count - 1].quantity)
                 {
                     return false;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < view.materialCardWrappers.Count; i++)
+                {
+                    if (view.materialCardWrappers[i].requiredQuantity > view.materialCardWrappers[i].quantity)
+                    {
+                        return false;
+                    }
                 }
             }
 

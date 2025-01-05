@@ -12,20 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f66092723e12c74baa5f126b033b5cf, type: 3}
   m_Name: Sugar
   m_EditorClassIdentifier: 
-  selectedComponents: 0
-  components: []
+  selectedComponents: 16
+  components:
+  - rid: 6522796779084447747
   weaponSlot: 2
-  filteredType: 0
+  filteredType: 1
   featuredType: 1
-  icon: {fileID: 0}
-  baseId: 
-  collectableObjectName: 
-  maxCount: 2000
-  maxQuantityStored: 0
+  icon: {fileID: 21300000, guid: fef0b85f6c77c444fad5787b823fef1b, type: 3}
+  baseId: sugar
+  collectableObjectName: Sugar
+  maxCount: 9999
+  maxQuantityStored: 9999
   amplitudeGainImpulse: 1
   force: 10
   fireRate: 10
-  shootingHandleType: 0
+  shootingHandleType: -1
   bulletObject: {fileID: 0}
   bulletEffectComponent: -1
   trailTracer: {fileID: 0}
@@ -37,20 +38,25 @@ MonoBehaviour:
   reloadSpeed: 0
   multiplierRecoilOnAim: 0
   multiplierForAmmo: 0
-  recoildPattern: []
-  bulletCount: 1
+  recoildPattern:
+  - {x: 0, y: 0}
+  bulletCount: 0
   ammmoHolding: 1
-  bulletDirectionPattern: []
-  totalGrowingTime: 2
+  bulletDirectionPattern:
+  - {x: 0, y: 0, z: 0}
+  totalGrowingTime: 0
   bodyType: -1
-  wateringTime: 1
+  wateringTime: 0
   requiredLevel: 1
   growingBody: {fileID: 0}
   description: 
-  gemEarnWhenHaverst: 0
-  totalProducingTime: 0
+  gemEarnWhenHaverst: 35
+  totalProducingTime: 30
   recipe: {fileID: 0}
   cost: 0
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6522796779084447747
+      type: {class: NaturalResourceStat, ns: VitsehLand.Scripts.Stats, asm: Game}
+      data: 

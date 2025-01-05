@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e681a7d669fe242aa6199fc348de1d, type: 3}
+  m_Name: IceCreamRecipe
+  m_EditorClassIdentifier: 
+  collectableObjectStat: {fileID: 11400000, guid: e46b36c0781c49a489d1f923f3946edc, type: 2}
+  items:
+  - {fileID: 11400000, guid: 105e7498f7231474fa64e9f4b04dcc43, type: 2}
+  - {fileID: 11400000, guid: 1bfeca6234170be4ea60badc372d9f00, type: 2}
+  - {fileID: 11400000, guid: eb0b263fa49bf214a959a52b4f2702ad, type: 2}
+  ammountPerSlots: 040000000100000002000000
+  product: {fileID: 4586032382900978486, guid: 47574fc7c32665f41958994bc72c82d1, type: 3}

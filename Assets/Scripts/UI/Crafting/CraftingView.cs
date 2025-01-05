@@ -174,6 +174,19 @@ namespace VitsehLand.Assets.Scripts.UI.Crafting
                 materialCardWrappers[i].quantityText.text = materialCardWrappers[i].requiredQuantity.ToString()
                 + "/" + materialCardWrappers[i].quantity.ToString();
 
+                if (materialCardWrappers[0].collectableObjectStat.name == materialCardWrappers[2].collectableObjectStat.name)
+                {
+                    if (materialCardWrappers[i].requiredQuantity * 2 > materialCardWrappers[i].quantity)
+                    {
+                        materialCardWrappers[i].quantityText.color = Color.red;
+                    }
+                    else
+                    {
+                        materialCardWrappers[i].quantityText.color = Color.white;
+                    }
+                    return;
+                }
+
                 if (materialCardWrappers[i].requiredQuantity > materialCardWrappers[i].quantity)
                 {
                     materialCardWrappers[i].quantityText.color = Color.red;

@@ -38,6 +38,7 @@ namespace VitsehLand.Scripts.Inventory
             bool isCrop = ammoObject is Crop;
             bool isPower = ammoObject is PowerContainer;
             bool isNaturalResource = ammoObject is NaturalResource;
+            bool isProduct = ammoObject is FarmingProduct;
 
             //if (count == 0)
             //{
@@ -45,11 +46,21 @@ namespace VitsehLand.Scripts.Inventory
             //    else suckableSample = (ammoObject as AmmoPickup).suckableSample;
             //}
 
-            int currentCount = count + newCount * collectableObjectStat.ammmoHolding;
+            int currentCount = 1;
+
+            if (isCrop)
+            {
+                if ((ammoObject as Crop).isFromHarvesting == false)
+                {
+                    currentCount = count + newCount;
+                }
+                else currentCount = count + newCount * collectableObjectStat.ammmoHolding;
+            }
+            else currentCount = count + newCount * collectableObjectStat.ammmoHolding;
             ammoObject.cropContain = 1;
             //Debug.Log(currentCount);
 
-            if ((isCrop || isPower || isNaturalResource) && currentCount <= collectableObjectStat.maxCount)
+            if ((isCrop || isPower || isNaturalResource || isProduct) && currentCount <= collectableObjectStat.maxCount)
             {
                 //Debug.Log("add");
                 totalPlant.Add(ammoObject);
@@ -65,7 +76,7 @@ namespace VitsehLand.Scripts.Inventory
                 count = currentCount;
                 //Debug.Log(isPlant);
 
-                if (isCrop || isPower || isNaturalResource)
+                if (isCrop || isPower || isNaturalResource || isProduct)
                 {
                     ammoObject.GetComponent<Suckable>().ChangeToStored();
                     suckableSample = Object.Instantiate(ammoObject.gameObject, CollectHandler.Instance.shootingInputData.bulletSpawnPoint.position, Quaternion.identity).GetComponent<Suckable>();
@@ -131,7 +142,9 @@ namespace VitsehLand.Scripts.Inventory
                         Suckable newSuckableObject;
 
                         if (suckableSample is Crop) newSuckableObject = Object.Instantiate(suckableSample.gameObject, CollectHandler.Instance.shootingInputData.bulletSpawnPoint.position, Quaternion.identity).GetComponent<Crop>();
-                        else newSuckableObject = Object.Instantiate(suckableSample.gameObject, CollectHandler.Instance.shootingInputData.bulletSpawnPoint.position, Quaternion.identity).GetComponent<PowerContainer>();
+                        else if (suckableSample is PowerContainer) newSuckableObject = Object.Instantiate(suckableSample.gameObject, CollectHandler.Instance.shootingInputData.bulletSpawnPoint.position, Quaternion.identity).GetComponent<PowerContainer>();
+                        else if (suckableSample is FarmingProduct) newSuckableObject = Object.Instantiate(suckableSample.gameObject, CollectHandler.Instance.shootingInputData.bulletSpawnPoint.position, Quaternion.identity).GetComponent<FarmingProduct>();
+                        else newSuckableObject = Object.Instantiate(suckableSample.gameObject, CollectHandler.Instance.shootingInputData.bulletSpawnPoint.position, Quaternion.identity).GetComponent<NaturalResource>();
 
                         newSuckableObject.gameObject.SetActive(true);
                         //(newPlant as Plant).plantData.orginalBody = InventoryController.Instance.gameObject;

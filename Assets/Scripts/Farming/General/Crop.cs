@@ -63,6 +63,8 @@ public class Crop : Suckable
     public int minDestroyTime = 50;
     public int maxDestroyTime = 100;
 
+    public bool isFromHarvesting = false;
+
     // Start is called before the first frame update
     void Start()
     {

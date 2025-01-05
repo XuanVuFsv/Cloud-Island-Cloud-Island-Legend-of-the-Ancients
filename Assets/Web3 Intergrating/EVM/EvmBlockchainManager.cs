@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Nethereum.Contracts;
 using System;
 using System.Collections;
@@ -13,7 +14,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using VitsehLand.Scripts;
+using VitsehLand.Scripts.Manager;
 using VitsehLand.Scripts.Pattern.Singleton;
+using VitsehLand.Scripts.Player;
+using VitsehLand.Scripts.TimeManager;
 using WalletConnectUnity.Modal;
 
 namespace Web3Intergrating.Evm
@@ -62,10 +67,37 @@ namespace Web3Intergrating.Evm
 
         public GameObject Group_NFT;
         public GameObject Group_Main;
+        public GameObject Game_UI;
+        public TextMeshProUGUI Score_Updated;
+
+        public TextMeshProUGUI savedScoreText, rankText;
+
+        public bool isEnableUI = false;
 
         private void Start()
         {
             WalletConnectModal.ModalClosed += (_, _) => OnModalClosed?.Invoke();
+
+            if (isEnableUI)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+
+                Game_UI.SetActive(isEnableUI);
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ShowGameUI(!isEnableUI);
+            }
         }
 
         public async void Login(string authProvider)
@@ -130,6 +162,10 @@ namespace Web3Intergrating.Evm
         {
             var balance = await Wallet.GetBalance(connection.ChainId);
             balanceText.text = "Balance: " + (Thirdweb.Utils.ToEth(balance.ToString())) + " ETH";
+
+            GemManager.Instance.SavedGemCount = await GetScore();
+            savedScoreText.text = "Onchain Coin: " + GemManager.Instance.SavedGemCount.ToString();
+            rankText.text = "Rank: " + (await GetRank()).ToString();
         }
 
         public async void ClaimCitizenCard()
@@ -194,29 +230,93 @@ namespace Web3Intergrating.Evm
         {
             Debug.Log($"Submitting score of {distanceTravelled} to blockchain for address {Address}");
             var contract = await ThirdwebManager.Instance.GetContract(
-                "0x9d9a1f4c1a685857a5666db45588aa3d5643af9f",
-                421614,
-                "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"ScoreAdded\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getRank\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"rank\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"submitScore\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
+                "0x5073dc7e624aed14f5641b115a2a0ab5758d9e2a",
+                connection.ChainId,
+"[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"ScoreAddedd\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"_scores\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getRank\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"rank\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getScore\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"submitScore\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
             );
-            await contract.Write(Wallet, "submitScore", 0, (int)distanceTravelled);
+            var result = await contract.Write(Wallet, "submitScore", 0, (int)distanceTravelled);
+            Debug.Log(result.Status);
         }
 
         internal async Task<int> GetRank()
         {
             var contract = await ThirdwebManager.Instance.GetContract(
-                "0x9d9a1f4c1a685857a5666db45588aa3d5643af9f",
-                421614,
-                "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"ScoreAdded\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getRank\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"rank\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"submitScore\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
-            );
+                "0x5073dc7e624aed14f5641b115a2a0ab5758d9e2a",
+                connection.ChainId,
+"[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"ScoreAddedd\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"_scores\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getRank\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"rank\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getScore\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"submitScore\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]");
             var rank = await contract.Read<int>("getRank", Address);
             Debug.Log($"Rank for address {Address} is {rank}");
             return rank;
         }
-    
+
+        internal async Task<int> GetScore()
+        {
+            var contract = await ThirdwebManager.Instance.GetContract(
+                "0x5073dc7e624aed14f5641b115a2a0ab5758d9e2a",
+                connection.ChainId,
+"[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"ScoreAddedd\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"_scores\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getRank\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"rank\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"player\",\"type\":\"address\"}],\"name\":\"getScore\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"score\",\"type\":\"uint256\"}],\"name\":\"submitScore\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
+            );
+            var score = await contract.Read<int>("getScore", Address);
+            Debug.Log($"Score for address {Address} is {score}");
+            return score;
+        }
+
         public void SwitchGroupUI()
         {
             Group_NFT.SetActive(!Group_NFT.activeSelf);
             Group_Main.SetActive(!Group_Main.activeSelf);
+        }
+
+        public void PlayGame()
+        {
+            isEnableUI = false;
+            Game_UI.SetActive(false);
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            GameTimeManager.Instance.UnPause();
+        }
+
+        public void ShowGameUI(bool enabled)
+        {
+            Game_UI.SetActive(enabled);
+
+            if (enabled)
+            {
+                //Set up cursor
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                GameTimeManager.Instance.Pause();
+            }
+            else
+            {
+                //Set up cursor
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                GameTimeManager.Instance.UnPause();
+            }
+            isEnableUI = !isEnableUI;
+        }
+
+        public async void Quit()
+        {
+            Score_Updated.gameObject.SetActive(true);
+            if (Address != null && Address != "" && GemManager.Instance.GemCount > 2500)
+            {
+                await SubmitScore((float)(GemManager.Instance.GemCount + GemManager.Instance.SavedGemCount - 2500));
+                Score_Updated.text = "Update Score Onchain Successfully!!!";
+            }
+            await UniTask.Delay(1000);
+            Application.Quit();
+        }
+
+        public async void Restart()
+        {
+            if (Address != null || Address != "")
+            {
+                await SubmitScore((float)(GemManager.Instance.GemCount + GemManager.Instance.SavedGemCount - 2500));
+                UpdateBalance();
+            }
         }
     }
 }
