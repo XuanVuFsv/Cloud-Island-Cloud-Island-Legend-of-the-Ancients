@@ -114,6 +114,7 @@ namespace VitsehLand.Scripts.Crafting
 
         public void SetItemStorage(string name, int value)
         {
+            Debug.Log(name);
             itemStorageDict[name].quantity = value;
         }
 

@@ -48,6 +48,7 @@ MonoBehaviour:
   - {x: 5, y: 8}
   - {x: 0, y: 1}
   bulletCount: 1
+  ammmoHolding: 1
   bulletDirectionPattern:
   - {x: 0, y: 0, z: 0}
   totalGrowingTime: 45
@@ -56,7 +57,7 @@ MonoBehaviour:
   requiredLevel: 0
   growingBody: {fileID: 0}
   description: Sniper ammo. Deal 80 damage
-  gemEarnWhenHaverst: 20
+  gemEarnWhenHaverst: 40
   totalProducingTime: 0
   recipe: {fileID: 0}
   cost: 0
@@ -86,6 +87,7 @@ MonoBehaviour:
         force: 0
         range: 100
         fireRate: 1
+        lifeTime: 0
         damage: 100
         damageDealToSpecificEnemy: 0
         reloadSpeed: 2.5

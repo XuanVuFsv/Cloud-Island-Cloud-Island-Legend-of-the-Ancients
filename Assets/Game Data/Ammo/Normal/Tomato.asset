@@ -42,6 +42,7 @@ MonoBehaviour:
   recoildPattern:
   - {x: 0, y: 0}
   bulletCount: 5
+  ammmoHolding: 1
   bulletDirectionPattern:
   - {x: 0, y: 0, z: 0}
   - {x: 0.05, y: 0, z: 0}
@@ -84,6 +85,7 @@ MonoBehaviour:
         force: 0
         range: 100
         fireRate: 1
+        lifeTime: 0
         damage: 30
         damageDealToSpecificEnemy: 0
         reloadSpeed: 0.5

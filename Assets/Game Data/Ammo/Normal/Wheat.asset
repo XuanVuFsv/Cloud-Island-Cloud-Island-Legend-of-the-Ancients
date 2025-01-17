@@ -51,7 +51,7 @@ MonoBehaviour:
   requiredLevel: 0
   growingBody: {fileID: 0}
   description: SMG Rifle Ammo. Deal 2.5 damage
-  gemEarnWhenHaverst: 5
+  gemEarnWhenHaverst: 10
   totalProducingTime: 0
   recipe: {fileID: 0}
   cost: 0

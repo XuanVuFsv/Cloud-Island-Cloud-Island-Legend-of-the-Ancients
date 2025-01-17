@@ -50,7 +50,7 @@ MonoBehaviour:
   requiredLevel: 1
   growingBody: {fileID: 0}
   description: 
-  gemEarnWhenHaverst: 35
+  gemEarnWhenHaverst: 100
   totalProducingTime: 30
   recipe: {fileID: 11400000, guid: 202c71be2264a8140b518452e50294ac, type: 2}
   cost: 0

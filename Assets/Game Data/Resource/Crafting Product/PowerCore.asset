@@ -40,6 +40,7 @@ MonoBehaviour:
   multiplierForAmmo: 0
   recoildPattern: []
   bulletCount: 0
+  ammmoHolding: 1
   bulletDirectionPattern: []
   totalGrowingTime: 0
   bodyType: -1
@@ -47,7 +48,7 @@ MonoBehaviour:
   requiredLevel: 1
   growingBody: {fileID: 0}
   description: Necessary to provide energy for Crafting, Farming, Water Filtration
-  gemEarnWhenHaverst: 0
+  gemEarnWhenHaverst: 15
   totalProducingTime: 7
   recipe: {fileID: 11400000, guid: 0cdf893ab92260841894713e2a3b3824, type: 2}
   cost: 0
