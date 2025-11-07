@@ -20,22 +20,20 @@ namespace VitsehLand.Scripts.Crafting
         void Awake()
         {
             model.SetupInitData();
+            InitializeQueueUI();
         }
 
         void Start()
         {
-            SetupInitViewElements();
+            SetupViewElements();
 
             view.slider.value = 1;
             model.currentQuantity = 1;
             view.queueQuantityDisplay.text = "You can use " + model.queueQuantity.ToString() + " slot in queue";
 
-            view.RegisterListener(UpdateQuantity);
-            view.RegisterListener(Craft);
-
             for (int i = 0; i < view.itemUIs.Count; i++)
             {
-                view.itemUIs[i].RegisterListener(OnClickProduct);
+                view.itemUIs[i].RegisterListener(OnProductSelected);
             }
 
             for (int i = 0; i < model.craftQueueHandlers.Count; i++)
@@ -44,19 +42,67 @@ namespace VitsehLand.Scripts.Crafting
             }
         }
 
+        // Initialize craft queue UI containers to be inactive at start
+        private void InitializeQueueUI()
+        {
+            for (int i = 0; i < model.craftQueueHandlers.Count; i++)
+            {
+                model.craftQueueHandlers[i].UIContainer.SetActive(false);
+            }
+        }
+
+        #region Presenter Activation Functions
+        // Activate presenter when activate action called through ActivateBehaviour
         public override void ExecuteActivateAction()
+        {
+            CraftingManager.Instance.ActivatePresenter(this);
+        }
+
+        // Deactivate presenter when close button clicked
+        public void OnCloseRequested()
+        {
+            Debug.Log("OnCloseRequested");
+            CraftingManager.Instance.DeactivatePresenter(this);
+        }
+
+        //Add listeners when activating presenter and update View
+        // Internal - Only Manager can call
+        internal void ActivateView()
         {
             if (view.isActive) return;
 
-            view.Show(true);
+            // Setup listeners
+            view.SetQuantityListener(OnCraftedQuantityChanged);
+            view.SetCraftListener(OnCraftConsumed);
+            view.SetCloseListener(OnCloseRequested);
 
+            // Show UI and update data
+            view.Show(true);
+            SetQueueDisplay(true);
             view.UpdateMaterialStorage(model.unlockedStorageSlot, model.itemStorageDict);
-            view.ReLoadQuantityMaterialsRequired(model.GetCurrentRecipe(), 
+            view.ReLoadQuantityMaterialsRequired(
+                model.GetCurrentRecipe(),
                 model.GetQuantityByMaterialOfRecipe(model.GetCurrentRecipe()),
-                model.currentQuantity);
+                model.currentQuantity
+            );
         }
 
-        public void SetupInitViewElements()
+        // Clear listeners when deactivating presenter and update View
+        // Internal - Only Manager can call
+        internal void DeactivateView()
+        {
+            Debug.Log(view.isActive);
+            if (!view.isActive) return;
+            Debug.Log("DeactivateView");
+
+            view.Show(false);
+            SetQueueDisplay(false);
+            view.ClearListeners();
+        }
+        #endregion
+
+        // Setup initial view elements based on model data
+        public void SetupViewElements()
         {
             int i = 0;
             foreach (var productRecipe in model.productRecipes)
@@ -91,60 +137,9 @@ namespace VitsehLand.Scripts.Crafting
             MyDebug.Log("Setup Done");
         }
 
-        public void OnClickProduct(CollectableObjectStat collectableObjectStat)
-        {
-            Debug.Log("Click" + " " + collectableObjectStat.collectableObjectName);
-
-            if (collectableObjectStat == null || collectableObjectStat.collectableObjectName == "Null") return;
-
-            model.currentRecipeNameId = collectableObjectStat.collectableObjectName;
-
-            view.ShowCurrentItemInformation(collectableObjectStat);
-            view.LoadMaterialsRequired(collectableObjectStat.recipe,
-                model.GetQuantityByMaterialOfRecipe(collectableObjectStat.recipe),
-                model.currentQuantity);
-        }
-
-        public void UpdateItemStorageDatas()
-        {
-            foreach (MaterialCardWrapper card in view.materialCardWrappers)
-            {
-                card.quantity -= card.requiredQuantity;
-                model.SetItemStorage(card.collectableObjectStat.collectableObjectName, card.quantity);
-                
-                if (card.quantity == 0)
-                {
-                    model.RemoveItemStorage(card.collectableObjectStat.collectableObjectName);
-                }
-            }
-
-            view.ReLoadQuantityMaterialsRequired(model.GetCurrentRecipe(),
-                model.GetQuantityByMaterialOfRecipe(model.GetCurrentRecipe()),
-                model.currentQuantity);
-            view.UpdateMaterialStorage(model.unlockedStorageSlot, model.itemStorageDict);
-        }
-
-        public void Craft()
-        {
-            if (!CheckCraftCondition())
-            {
-                Debug.Log("Not enough material or Energy");
-                return;
-            }
-
-            StartCraft();
-        }
-
+        #region Crafting Functions
         public bool CheckCraftCondition()
         {
-            //foreach (MaterialCardWrapper card in view.materialCardWrappers)
-            //{
-            //    if (card.requiredQuantity > card.quantity)
-            //    {
-            //        return false;
-            //    }
-            //}
-
             if (view.materialCardWrappers[0].collectableObjectStat.name == view.materialCardWrappers[view.materialCardWrappers.Count - 1].collectableObjectStat.name)
             {
                 if (view.materialCardWrappers[0].requiredQuantity * 2 > view.materialCardWrappers[view.materialCardWrappers.Count - 1].quantity)
@@ -172,6 +167,17 @@ namespace VitsehLand.Scripts.Crafting
             return true;
         }
 
+        public void OnCraftConsumed()
+        {
+            if (!CheckCraftCondition())
+            {
+                Debug.Log("Not enough material or Energy");
+                return;
+            }
+
+            StartCraft();
+        }
+
         public void StartCraft()
         {
             if (model.queueActiveQuantity < model.queueQuantity)
@@ -181,7 +187,7 @@ namespace VitsehLand.Scripts.Crafting
                 int index = model.FindFirstCraftSlotReady();
                 if (index >= 0)
                 {
-                    UpdateItemStorageDatas();
+                    ConsumeCraftMaterials();
                     model.craftQueueHandlers[index].UIContainer.SetActive(true);
 
                     model.craftQueueHandlers[index].collectableObjectStat = model.GetCurrentRecipe().collectableObjectStat;
@@ -211,13 +217,68 @@ namespace VitsehLand.Scripts.Crafting
             model.queueActiveQuantity--;
             view.VFX.SetActive(true);
         }
+        #endregion
+
+        #region Crafting UI and Storage Data Functions
+        public void OnProductSelected(CollectableObjectStat collectableObjectStat)
+        {
+            if (collectableObjectStat != null && collectableObjectStat.recipe == null)
+            {
+                Debug.LogWarning("Invalid recipe data");
+                return;
+            }
+
+            Debug.Log("Click" + " " + collectableObjectStat.collectableObjectName);
+
+            if (collectableObjectStat == null || collectableObjectStat.collectableObjectName == "Null") return;
+
+            model.currentRecipeName = collectableObjectStat.collectableObjectName;
+
+            view.ShowCurrentItemInformation(collectableObjectStat);
+            view.LoadMaterialsRequired(collectableObjectStat.recipe,
+                model.GetQuantityByMaterialOfRecipe(collectableObjectStat.recipe),
+                model.currentQuantity);
+        }
+
+        // Consume materials from storage and refresh view after crafting
+        public void ConsumeCraftMaterials()
+        {
+            DeductMaterialsFromStorage();
+            RefreshMaterialsView();
+        }
+
+        // Consume logic
+        private void DeductMaterialsFromStorage()
+        {
+            foreach (MaterialCardWrapper card in view.materialCardWrappers)
+            {
+                card.quantity -= card.requiredQuantity;
+                model.SetItemStorage(card.collectableObjectStat.collectableObjectName, card.quantity);
+
+                if (card.quantity == 0)
+                {
+                    model.RemoveItemStorage(card.collectableObjectStat.collectableObjectName);
+                }
+            }
+        }
+
+        // Refresh view
+        private void RefreshMaterialsView()
+        {
+            view.ReLoadQuantityMaterialsRequired(
+                model.GetCurrentRecipe(),
+                model.GetQuantityByMaterialOfRecipe(model.GetCurrentRecipe()),
+                model.currentQuantity
+            );
+            view.UpdateMaterialStorage(model.unlockedStorageSlot, model.itemStorageDict);
+        }
 
         public bool AddItemStorage(CollectableObjectStat collectableObjectStat, int quantity)
         {
             return model.AddItemStorage(collectableObjectStat, quantity);
         }
 
-        public void UpdateQuantity(int value, CraftingView.QuanityChangedActionType actionType)
+        public void OnCraftedQuantityChanged(int value, CraftingView.QuanityChangedActionType actionType)
         {
             if (actionType == CraftingView.QuanityChangedActionType.Button)
             {
@@ -242,5 +303,14 @@ namespace VitsehLand.Scripts.Crafting
                     model.currentQuantity);
             }
         }
+        
+        public void SetQueueDisplay(bool isActivated)
+        {
+            for (int i = 0; i < model.craftQueueHandlers.Count; i++)
+            {
+                model.craftQueueHandlers[i].SetDisplay(isActivated);
+            }
+        }
+        #endregion
     }
 }

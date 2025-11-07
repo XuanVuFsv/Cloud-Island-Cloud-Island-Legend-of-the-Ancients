@@ -26,7 +26,7 @@ namespace VitsehLand.Scripts.UI.Interactive
             {
                 guildDisplayUI.SetActive(false);
                 enableUI = false;
-                activateBehaviour?.ExecuteActivateAction();
+                activateBehaviour.ExecuteActivateAction();
             }
         }
 

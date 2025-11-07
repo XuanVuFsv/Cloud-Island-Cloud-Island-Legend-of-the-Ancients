@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Thirdweb;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using VitsehLand.Scripts.Crafting;
 using VitsehLand.Scripts.Inventory;
@@ -33,6 +35,7 @@ namespace VitsehLand.Assets.Scripts.UI.Crafting
         public GameObject queueDisplay;
         public GameObject materials;
         public GameObject information;
+        public Button closeButton;
 
         [Header("Crafting elements")]
         public Image currentProductImage;
@@ -57,26 +60,17 @@ namespace VitsehLand.Assets.Scripts.UI.Crafting
             Button = 0,
             Slider = 1
         }
+
+        // Only one presenter can listen at a time
         public event Action<int, QuanityChangedActionType> OnQuantityChanged = delegate { };
-        public event Action OnCraftButtonClick = delegate { };
+        public event Action OnCrafted = delegate { };
+        public event Action OnClosed = delegate { };
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        public void CloseCraftingUI()
-        {
-            if (cursorAvaiable && isActive)
-            {
-                Show(false);
-            }
-        }
+        #region UI Display & Control
 
         public void Show(bool show)
         {
-            body.gameObject.SetActive(show);
+            body.SetActive(show);
             ShowRecipe();
             isActive = show;
 
@@ -105,57 +99,112 @@ namespace VitsehLand.Assets.Scripts.UI.Crafting
             time.text = "Time: " + cropStat.totalProducingTime.ToString() + "s";
         }
 
+        public void CloseCraftingUI()
+        {
+            //CraftingManager.Instance.DeactivateCurrentPresenter();
+
+            slider.value = 1;
+            OnQuantityChanged?.Invoke(1, QuanityChangedActionType.Slider);
+            OnClosed?.Invoke();
+
+            if (cursorAvaiable && isActive)
+            {
+                Show(false);
+            }
+        }
+        #endregion
+
         #region Main Action Components
         public void ShowRecipe()
         {
-            products.gameObject.SetActive(true);
-            interaction.gameObject.SetActive(true);
-            queueDisplay.gameObject.SetActive(false);
-            materials.gameObject.SetActive(false);
-            information.gameObject.SetActive(true);
+            products.SetActive(true);
+            interaction.SetActive(true);
+            queueDisplay.SetActive(false);
+            materials.SetActive(false);
+            information.SetActive(true);
         }
 
         public void ShowQueue()
         {
-            products.gameObject.SetActive(false);
-            interaction.gameObject.SetActive(false);
-            queueDisplay.gameObject.SetActive(true);
-            materials.gameObject.SetActive(false);
-            information.gameObject.SetActive(false);
+            products.SetActive(false);
+            interaction.SetActive(false);
+            queueDisplay.SetActive(true);
+            materials.SetActive(false);
+            information.SetActive(false);
         }
 
         public void ShowMaterials()
         {
-            products.gameObject.SetActive(false);
-            interaction.gameObject.SetActive(false);
-            queueDisplay.gameObject.SetActive(false);
-            materials.gameObject.SetActive(true);
-            information.gameObject.SetActive(false);
+            products.SetActive(false);
+            interaction.SetActive(false);
+            queueDisplay.SetActive(false);
+            materials.SetActive(true);
+            information.SetActive(false);
         }
         #endregion
 
-        #region Crafting Components
-        public void RegisterListener(Action<int, QuanityChangedActionType> listener)
+        #region Single Listener
+
+        /// <summary>
+        /// Set quantity listener - replaces any existing listener
+        /// </summary>
+        public void SetQuantityListener(Action<int, QuanityChangedActionType> listener)
         {
-            OnQuantityChanged += listener;
+            OnQuantityChanged = listener;
         }
 
+        /// <summary>
+        /// Set craft listener - replaces any existing listener
+        /// </summary>
+        public void SetCraftListener(Action listener)
+        {
+            OnCrafted = listener;
+        }
+
+        /// <summary>
+        /// Set close listener - replaces any existing listener
+        /// </summary>
+        /// <param name="listener"></param>
+        public void SetCloseListener(Action listener)
+        {
+            OnClosed = listener;
+        }
+
+        /// <summary>
+        /// Clear all listeners when machine becomes inactive
+        /// </summary>
+        public void ClearListeners()
+        {
+            OnQuantityChanged = null;
+            OnCrafted = null;
+            OnClosed = null;
+        }
+        #endregion
+
+        #region Modified UI Events Handlers
         public void PlusQuantity()
         {
-            OnQuantityChanged(1, QuanityChangedActionType.Button);
+            OnQuantityChanged?.Invoke(1, QuanityChangedActionType.Button);
         }
 
         public void MinusQuantity()
         {
-            OnQuantityChanged(-1, QuanityChangedActionType.Button);
+           OnQuantityChanged?.Invoke(-1, QuanityChangedActionType.Button);
         }
 
-        public void OnSliderChanged()
+        public void UpdateSliderValue()
         {
-            OnQuantityChanged((int)slider.value, QuanityChangedActionType.Slider);
+            OnQuantityChanged?.Invoke((int)slider.value, QuanityChangedActionType.Slider);
         }
+
+        public void Craft()
+        {
+            OnCrafted?.Invoke();
+        }
+
         #endregion
 
+        #region Material Management
         public void LoadMaterialsRequired(RecipeData recipeData, List<int> quantityMaterials, int quantity)
         {
             //Debug.Log("Load " + recipeData.collectableObjectStat.collectableObjectName);
@@ -220,7 +269,9 @@ namespace VitsehLand.Assets.Scripts.UI.Crafting
                 }
             }
         }
+        #endregion
 
+        #region Storage Management
         public void ResetMaterialStorage(int unlockedStorageSlot)
         {
             for (int i = 0; i < storageCardWrappers.Count; i++)
@@ -255,17 +306,9 @@ namespace VitsehLand.Assets.Scripts.UI.Crafting
                 else break;
             }
         }
+        #endregion
 
-        public void RegisterListener(Action listener)
-        {
-            OnCraftButtonClick += listener;
-        }
-
-        public void Craft()
-        {
-            OnCraftButtonClick();
-        }
-
+        #region Warning System
         public IEnumerator ShowWarning()
         {
             warningFullQueue.SetActive(true);
@@ -279,5 +322,6 @@ namespace VitsehLand.Assets.Scripts.UI.Crafting
             yield return new WaitForSeconds(0.5f);
             warningNotEnoughPower.SetActive(false);
         }
+        #endregion
     }
 }

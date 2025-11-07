@@ -61,22 +61,22 @@ namespace VitsehLand.Scripts.Crafting
         public int queueActiveQuantity = 0;
 
         [PropertySpace(SpaceBefore = 20)]
-        public string currentRecipeNameId;
+        public string currentRecipeName;
         #endregion
 
         public void SetupInitData()
         {
-            currentRecipeNameId = productRecipes.ElementAt(0).Key;
+            currentRecipeName = productRecipes.ElementAt(0).Key;
 
-            for (int i = 0; i < craftQueueHandlers.Count; i++)
-            {
-                craftQueueHandlers[i].UIContainer.SetActive(false);
-            }
+            //for (int i = 0; i < craftQueueHandlers.Count; i++)
+            //{
+            //    craftQueueHandlers[i].UIContainer.SetActive(false);
+            //}
         }
 
         public RecipeData GetCurrentRecipe()
         {
-            return productRecipes[currentRecipeNameId];
+            return productRecipes[currentRecipeName];
         }
 
         /// <summary>
