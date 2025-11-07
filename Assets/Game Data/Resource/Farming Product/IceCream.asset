@@ -20,7 +20,7 @@ MonoBehaviour:
   featuredType: 1
   icon: {fileID: 21300000, guid: a9436a583a5db4ccfad049bc57c157d2, type: 3}
   baseId: icecream
-  collectableObjectName: Ice Cream
+  collectableObjectName: IceCream
   maxCount: 9999
   maxQuantityStored: 9999
   amplitudeGainImpulse: 1
